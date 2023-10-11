@@ -1,0 +1,154 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/iform.css' %}">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+
+</head>
+<body>
+
+    <div class="header-container">
+        <a href="/">
+        <img src="{% static 'images/AI Planet Logo.png' %}" alt="logo"></a>
+    </div>
+   
+    <div class="iform-container">
+    
+    <form action="#" method="POST" enctype="multipart/form-data">  {% csrf_token %}
+        <div class="iform-head">
+            New Hackathon Submission
+        </div>
+        <div class="input-field">
+            <label for="title">Title</label>
+            <input name="title" id="title" type="text" placeholder="Title of your submission" required>
+        </div>
+        <div class="input-field">
+            <label for="summary">Summary</label>
+            <input name="summary" id="summary" type="text" placeholder="A short summary of your submission (this will be visible with your submission)" required>
+        </div>
+        <div class="input-field">
+            <label for="description">Description</label>
+            <textarea name="description" id="description"  rows="10" cols="93" type="textarea" placeholder="Write a long description of your project. You can describe your idea and approach here." required></textarea>
+        </div>
+        <div class="input-field">
+            <label for="cover-image">Cover Image</label>
+            <input name="image" id="image" type="file">
+        </div>
+        <div class="input-field">
+            <label for="hackathon-name">Hackathon Name</label>
+            <input name="hackathon-name" id="hackathon-name" type="text" placeholder="Title of your submission" required>
+        </div>
+        <div class="input-field field-column">
+            <label for="hackathon-start-date">Hackathon Start Date</label>
+            <input name="hackathon-start-date" id="hackathon-start-date" type="date" placeholder="Select start date" required>
+        </div>
+        <div class="input-field field-column">
+            <label for="hackathon-end-date">Hackathon End Date</label>
+            <input name="hackathon-end-date" id="hackathon-end-date" type="date" placeholder="Select end date" required>
+        </div>
+        <div class="input-field">
+            <label for="github-repo">GitHub Repository</label>
+            <input name="github-repo" id="github-repo" type="url" placeholder=" Enter your submission’s public GitHub repository link" required>
+        </div>
+        <div class="input-field">
+            <label for="other-links">Other Links</label>
+            <input name="other-links" id="other-links" type="url" placeholder="You can upload a video demo or URL of you demo app here. " required>
+        </div>
+
+        <button type="submit" class="upload-button">Upload Submissions</button>
+
+        </div>
+    </form>
+    </div>
+    
+</body>
+
+<script>
+    const titleInput = document.getElementById('title');
+    const summaryInput = document.getElementById('summary');
+    const descriptionInput = document.getElementById('description');
+    const hackathonNameInput = document.getElementById('hackathon-name');
+    const githubRepoInput = document.getElementById('github-repo');
+    const otherLinksInput = document.getElementById('other-links');
+    
+    // add event listeners to input fields
+    titleInput.addEventListener('input', validateTitle);
+    summaryInput.addEventListener('input', validateSummary);
+    descriptionInput.addEventListener('input', validateDescription);
+    hackathonNameInput.addEventListener('input', validateHackathonName);
+    githubRepoInput.addEventListener('input', validateGithubRepo);
+    otherLinksInput.addEventListener('input', validateOtherLinks);
+
+    // validate title input
+    function validateTitle() {
+      const maxTitleLength = 200;
+      if (titleInput.value.length > maxTitleLength) {
+        titleInput.setCustomValidity(`Title must be less than or equal to ${maxTitleLength} characters.`);
+      } else {
+        titleInput.setCustomValidity('');
+      }
+    }
+
+    // validate summary input
+    function validateSummary() {
+      const maxSummaryLength = 500;
+      if (summaryInput.value.length > maxSummaryLength) {
+        summaryInput.setCustomValidity(`Summary must be less than or equal to ${maxSummaryLength} characters.`);
+      } else {
+        summaryInput.setCustomValidity('');
+      }
+    }
+
+    // validate description input
+    function validateDescription() {
+      const maxDescriptionLength = 3000;
+      if (descriptionInput.value.length > maxDescriptionLength) {
+        descriptionInput.setCustomValidity(`Description must be less than or equal to ${maxDescriptionLength} characters.`);
+      } else {
+        descriptionInput.setCustomValidity('');
+      }
+    }
+    
+    // validate hackathon name input
+    function validateHackathonName() {
+      const maxHackathonNameLength = 200;
+      if (hackathonNameInput.value.length > maxHackathonNameLength) {
+        hackathonNameInput.setCustomValidity(`Hackathon Name must be less than or equal to ${maxHackathonNameLength} characters.`);
+      } else {
+        hackathonNameInput.setCustomValidity('');
+      }
+    }
+
+    function validateGithubRepo() {
+      let githubRepoInput = document.getElementById("github-repo");
+      let githubRepoValue = githubRepoInput.value.trim();
+      let githubRepoRegex = /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+\/?$/;
+    
+      if (!githubRepoRegex.test(githubRepoValue)) {
+        githubRepoInput.setCustomValidity("Please enter a valid GitHub repository link");
+      } else {
+        githubRepoInput.setCustomValidity("");
+      }
+    }
+    
+    function validateOtherLinks() {
+      let otherLinksInput = document.getElementById("other-links");
+      let otherLinksValue = otherLinksInput.value.trim();
+      let otherLinksRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+    
+      if (otherLinksValue && !otherLinksRegex.test(otherLinksValue)) {
+        otherLinksInput.setCustomValidity("Please enter a valid URL for other links");
+      } else {
+        otherLinksInput.setCustomValidity("");
+      }
+    }
+
+</script>
+</html>
